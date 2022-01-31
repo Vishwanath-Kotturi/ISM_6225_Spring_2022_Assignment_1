@@ -5,6 +5,7 @@ WRITE YOUR CODE IN THE RESPECTIVE FUNCTION BLOCK
 
 */
 using System;
+using System.Linq;
 
 namespace DIS_Assignmnet1_SPRING_2022
 {
@@ -89,9 +90,11 @@ namespace DIS_Assignmnet1_SPRING_2022
         {
             try
             {
-                // write your code here
-                String final_string ="";
-                return final_string;
+                // write your code here.
+                //Here I chose to use Regex to find the vowels and used IgnoreCase to check for both cases of letters
+                s = System.Text.RegularExpressions.Regex.Replace(s, "[aeiou]", "", System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+
+                return s;
             }
             catch (Exception)
             {
@@ -125,15 +128,26 @@ namespace DIS_Assignmnet1_SPRING_2022
         {
             try
             {
+
                 // write your code here.
-                return false;
+
+                //char[][] char1Array = new char[bulls_string1.Length][];
+                //char[][] char2Array = new char[bulls_string2.Length][];
+
+                //Here I am using Concat to join all of the words so that the resulting output can be used to compare the strings
+                String char1Array = string.Concat(bulls_string1);
+                String char2Array = string.Concat(bulls_string2);
+                if (char1Array == char2Array)
+                    return true;
+                else
+                    return false;
+
             }
             catch (Exception)
             {
 
                 throw;
             }
-
         }
         /*
         <summary> 
@@ -158,9 +172,25 @@ namespace DIS_Assignmnet1_SPRING_2022
         {
             try
             {
+                int Sum = 0;
                 // write your code here
-                return 0;
+                //Here I am using the Enumerable.Select and Group by the values are grouped and then for each of the values in the counter it iterates to get the count of how many times each number occurs and if it occurs only once i.e. count() is 1 then it is added to the sum which holds the output
+                var Counter = bull_bucks.GroupBy(r => r)
+                .Select(grp => new
+                {
+                    Value = grp.Key,
+                    Count = grp.Count()
+                });
 
+                foreach (var i in Counter)
+                {
+                    //checking to see if count is 1
+                    if (i.Count == 1)
+                    {
+                        Sum += i.Value;
+                    }
+                }
+                return Sum;
             }
             catch (Exception)
             {
@@ -190,19 +220,35 @@ namespace DIS_Assignmnet1_SPRING_2022
 
         private static int DiagonalSum(int[,] bulls_grid)
         {
+            int Total = 0, indices;
             try
             {
                 // write your code here.
 
-                return 0;
+                //First adding one side of the diagonal that is simply (1,1),(2,2) and so on so just taking (i,i) values and summing up
+
+                for (int i = 0; i < bulls_grid.GetLength(0); i++)
+                {
+                    Total += bulls_grid[i, i];
+                }
+                //Here the loic goes like for the right to left diagonal the value for exaample are (0,3),(1,2) and so on. Here the logic is the total is always 3 and so the first part of the index is second index - the total length to ssatify the logic that when added both the indices add up to be length.
+                for (int i = bulls_grid.GetLength(0) - 1; i >= 0; i--)
+                {
+                    Total += bulls_grid[(bulls_grid.GetLength(0) - 1) - i, i];
+                }
+                //Here handling the middle team in case of a odd length matrix which is added twice as it occurs as part of both diagonals but the same isnt case with even matrices so first checking to see if odd then getting the middle term in the matrix.
+                if (((bulls_grid.GetLength(0)) % 2 != 0) && (bulls_grid.GetLength(0) > 1))
+                {
+                    indices = (bulls_grid.GetLength(0) - 1) / 2;
+                    Total -= bulls_grid[indices, indices];
+                }
+                return Total;
             }
             catch (Exception e)
             {
-
                 Console.WriteLine("An error occured: " + e.Message);
                 throw;
             }
-
         }
 
 
@@ -225,7 +271,18 @@ namespace DIS_Assignmnet1_SPRING_2022
             try
             {
                 // write your code here.
-                return "null";
+
+                char[] chararray = new char[1000];
+                //using for loop to loop through the string and for the index postion the value is used in a new chararray and is assigned the postion of the bulls_string.
+                for (int i = 0; i < bulls_string.Length; i++)
+                {
+
+                    chararray[indices[i]] = bulls_string[i];
+                }
+
+                string restore = new string(chararray);
+
+                return restore;
             }
             catch (Exception e)
             {
@@ -264,7 +321,25 @@ namespace DIS_Assignmnet1_SPRING_2022
         {
             try
             {
-                String prefix_string ="";
+                int pos = 0;
+
+                string result = "";
+                //Findng the index of the input char in the string
+                pos = bulls_string6.IndexOf(ch);
+                //from the index value we add back values in the reverse order until first term
+                for (int i = pos; i >= 0; i--)
+                {
+
+                    result += bulls_string6[i];
+
+
+                }
+                //adding remaining of the string back
+                for (int i = pos + 1; i < bulls_string6.Length; i++)
+                {
+                    result += bulls_string6[i];
+                }
+                string prefix_string = result;
                 return prefix_string;
             }
             catch (Exception)
