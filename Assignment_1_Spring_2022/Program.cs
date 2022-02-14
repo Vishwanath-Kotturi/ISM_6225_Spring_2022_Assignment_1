@@ -82,7 +82,7 @@ namespace DIS_Assignmnet1_SPRING_2022
 
         Constraints:
         •	0 <= s.length <= 10000
-        s consists of uppercase and lowercase letters
+        
         </summary>
         */
 
